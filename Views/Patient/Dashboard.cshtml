@@ -1,0 +1,239 @@
+@model Patient
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+<main class="main">
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="dashboard-sidebar">
+                        <div class="patient-info">
+                            <h4>Welcome, @Model.FirstName!</h4>
+                            <p>@Model.Email</p>
+                        </div>
+                        <nav class="dashboard-nav">
+                            <ul class="list-unstyled">
+                                <li><a href="@Url.Action("Dashboard", "Patient")" class="active"><i class="bi bi-house"></i> Dashboard</a></li>
+                                <li><a href="@Url.Action("Appointments", "Patient")"><i class="bi bi-calendar-check"></i> My Appointments</a></li>
+                                <li><a href="@Url.Action("BookAppointment", "Patient")"><i class="bi bi-calendar-plus"></i> Book Appointment</a></li>
+                                <li><a href="@Url.Action("LabResults", "Patient")"><i class="bi bi-file-medical"></i> Lab Results</a></li>
+                                <li><a href="@Url.Action("Profile", "Patient")"><i class="bi bi-person"></i> Profile</a></li>
+                                <li><a href="@Url.Action("Logout", "Patient")"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <div class="dashboard-content">
+                        <h2>Dashboard Overview</h2>
+                        
+                        @if (TempData["Success"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                @TempData["Success"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        }
+
+                        <!-- Statistics Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="stats-card">
+                                    <div class="card-body text-center">
+                                        <h3>@Model.Appointments.Count</h3>
+                                        <p>Total Appointments</p>
+                                        <i class="bi bi-calendar-check stats-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stats-card">
+                                    <div class="card-body text-center">
+                                        <h3>@Model.Appointments.Count(a => a.Status == AppointmentStatus.Scheduled)</h3>
+                                        <p>Upcoming Appointments</p>
+                                        <i class="bi bi-clock stats-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stats-card">
+                                    <div class="card-body text-center">
+                                        <h3>@Model.LabResults.Count</h3>
+                                        <p>Lab Results</p>
+                                        <i class="bi bi-file-medical stats-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Appointments and Lab Results -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="dashboard-section">
+                                    <h4>Recent Appointments</h4>
+                                    @if (Model.Appointments.Any())
+                                    {
+                                        <div class="list-group">
+                                            @foreach (var appointment in Model.Appointments.OrderByDescending(a => a.AppointmentDate).Take(3))
+                                            {
+                                                <div class="list-group-item">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h6 class="mb-1">Dr. @appointment.Doctor.FirstName @appointment.Doctor.LastName</h6>
+                                                        <small>@appointment.AppointmentDate.ToString("MMM dd, yyyy")</small>
+                                                    </div>
+                                                    <p class="mb-1">@appointment.Department</p>
+                                                    <small class="badge bg-@(GetStatusColor(appointment.Status))">
+                                                        @appointment.Status
+                                                    </small>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="mt-3">
+                                            <a href="@Url.Action("Appointments", "Patient")" class="btn btn-outline-primary">View All Appointments</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p>No appointments found.</p>
+                                        <a href="@Url.Action("BookAppointment", "Patient")" class="btn btn-primary">Book Your First Appointment</a>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="dashboard-section">
+                                    <h4>Recent Lab Results</h4>
+                                    @if (Model.LabResults.Any())
+                                    {
+                                        <div class="list-group">
+                                            @foreach (var labResult in Model.LabResults.OrderByDescending(lr => lr.TestDate).Take(3))
+                                            {
+                                                <div class="list-group-item">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h6 class="mb-1">@labResult.TestName</h6>
+                                                        <small>@labResult.TestDate.ToString("MMM dd, yyyy")</small>
+                                                    </div>
+                                                    <p class="mb-1">@labResult.TestType</p>
+                                                    <small class="badge bg-@(GetLabStatusColor(labResult.Status))">
+                                                        @labResult.Status
+                                                    </small>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="mt-3">
+                                            <a href="@Url.Action("LabResults", "Patient")" class="btn btn-outline-primary">View All Results</a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p>No lab results found.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@functions {
+    string GetStatusColor(AppointmentStatus status)
+    {
+        return status switch
+        {
+            AppointmentStatus.Scheduled => "primary",
+            AppointmentStatus.Confirmed => "info",
+            AppointmentStatus.Completed => "success",
+            AppointmentStatus.Cancelled => "secondary",
+            _ => "secondary"
+        };
+    }
+
+    string GetLabStatusColor(LabResultStatus status)
+    {
+        return status switch
+        {
+            LabResultStatus.Pending => "warning",
+            LabResultStatus.InProgress => "info",
+            LabResultStatus.Completed => "success",
+            LabResultStatus.Reviewed => "primary",
+            _ => "secondary"
+        };
+    }
+}
+
+<style>
+.dashboard-sidebar {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.patient-info {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.dashboard-nav ul li {
+    margin-bottom: 5px;
+}
+
+.dashboard-nav ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-nav ul li a:hover,
+.dashboard-nav ul li a.active {
+    background: #007bff;
+    color: white;
+}
+
+.stats-card {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    color: #007bff;
+    opacity: 0.3;
+}
+
+.dashboard-section {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.dashboard-section h4 {
+    margin-bottom: 15px;
+    color: #333;
+}
+</style>

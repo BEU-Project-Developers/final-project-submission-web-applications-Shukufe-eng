@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+
+        <img src="~/img/hero-bg.jpg" alt="" data-aos="fade-in">
+
+        <div class="container position-relative">
+
+            <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+                <h2>WELCOME TO MEDILAB</h2>
+                <p>We are a team of dedicated professionals committed to improving healthcare services through innovative digital solutions</p>
+            </div><!-- End Welcome -->
+
+            <div class="content row gy-4">
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <div class="why-box" data-aos="zoom-out" data-aos-delay="200">
+                        <h3>Why Choose Medilab?</h3>
+                        <p>
+                            At Medilab, we are dedicated to providing reliable, high-quality healthcare solutions that prioritize patient well-being.
+                            Our experienced medical staff, advanced technology, and patient-centered approach ensure that every individual receives the best possible care.
+                            We believe in compassion, innovation, and trust — because your health deserves nothing less.
+                        </p>
+                        <div class="text-center">
+                            <a asp-controller="Home" asp-action="About" class="more-btn"><span>Learn More</span> <i class="bi bi-chevron-right"></i></a>
+                        </div>
+                    </div>
+                </div><!-- End Why Box -->
+
+                <div class="col-lg-8 d-flex align-items-stretch">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="row gy-4">
+
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
+                                    <i class="bi bi-clipboard-data"></i>
+                                    <h4>Professional Medical Team</h4>
+                                    <p>
+                                        We work with experienced and compassionate medical professionals dedicated to your health.
+                                        Our team ensures you receive personalized and high-quality care every step of the way.
+
+                                    </p>
+                                </div>
+                            </div><!-- End Icon Box -->
+
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
+                                    <i class="bi bi-gem"></i>
+                                    <h4>Modern Equipment & Technology</h4>
+                                    <p>
+                                        Equipped with the latest medical technology, we provide accurate diagnoses and effective treatments.
+                                        Your safety and comfort are our top priorities.
+                                    </p>
+                                </div>
+                            </div><!-- End Icon Box -->
+
+                            <div class="col-xl-4 d-flex align-items-stretch">
+                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="500">
+                                    <i class="bi bi-inboxes"></i>
+                                    <h4>Comprehensive Services</h4>
+                                    <p>From diagnostics to treatment and follow-up care, we offer a wide range of medical services under one roof, tailored to your individual needs.</p>
+                                </div>
+                            </div><!-- End Icon Box -->
+
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End  Content-->
+
+        </div>
+
+    </section><!-- /Hero Section -->
+    <!-- Stats Section -->
+    <section id="stats" class="stats section light-background">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="fa-solid fa-user-doctor"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Doctors</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="fa-regular fa-hospital"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="18" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Departments</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="fas fa-flask"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Research Labs</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="fas fa-award"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Awards</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Stats Section -->
+
+
+</main>

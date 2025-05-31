@@ -1,0 +1,150 @@
+@model IEnumerable<LabResult>
+@{
+    ViewData["Title"] = "Lab Results";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+        @await Html.PartialAsync("_PatientSidebar")
+    </div>
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">My Lab Results</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Any())
+                {
+                    <div class="row">
+                        @foreach (var result in Model.OrderByDescending(r => r.DateOrdered))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <h6 class="card-title mb-0">@result.TestName</h6>
+                                            @switch (result.Status)
+                                            {
+                                                case LabResultStatus.Pending:
+                                                    <span class="badge bg-warning">Pending</span>
+                                                    break;
+                                                case LabResultStatus.InProgress:
+                                                    <span class="badge bg-info">In Progress</span>
+                                                    break;
+                                                case LabResultStatus.Completed:
+                                                    <span class="badge bg-success">Completed</span>
+                                                    break;
+                                                case LabResultStatus.Cancelled:
+                                                    <span class="badge bg-danger">Cancelled</span>
+                                                    break;
+                                            }
+                                        </div>
+                                        
+                                        <div class="mb-2">
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i>
+                                                Ordered: @result.DateOrdered.ToString("MMM dd, yyyy")
+                                            </small>
+                                        </div>
+                                        
+                                        @if (result.DateCompleted.HasValue)
+                                        {
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-check-circle me-1"></i>
+                                                    Completed: @result.DateCompleted.Value.ToString("MMM dd, yyyy")
+                                                </small>
+                                            </div>
+                                        }
+                                        
+                                        @if (!string.IsNullOrEmpty(result.Results))
+                                        {
+                                            <div class="mb-3">
+                                                <strong>Results:</strong>
+                                                <div class="mt-1 p-2 bg-light rounded">
+                                                    @result.Results
+                                                </div>
+                                            </div>
+                                        }
+                                        
+                                        @if (!string.IsNullOrEmpty(result.Notes))
+                                        {
+                                            <div class="mb-3">
+                                                <strong>Notes:</strong>
+                                                <p class="mb-0">@result.Notes</p>
+                                            </div>
+                                        }
+                                        
+                                        @if (result.Status == LabResultStatus.Completed && !string.IsNullOrEmpty(result.Results))
+                                        {
+                                            <button class="btn btn-outline-primary btn-sm" onclick="downloadResult(@result.Id)">
+                                                <i class="fas fa-download me-1"></i>
+                                                Download PDF
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="fas fa-vial fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No lab results found</h5>
+                        <p class="text-muted">You don't have any lab results yet. Lab results will appear here once your doctor orders tests for you.</p>
+                        <a href="@Url.Action("BookAppointment", "Patient")" class="btn btn-primary">
+                            Book an Appointment
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <!-- Lab Results Summary -->
+        @if (Model.Any())
+        {
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Lab Results Summary</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="text-primary mb-1">@Model.Count()</h4>
+                                <small class="text-muted">Total Tests</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="text-success mb-1">@Model.Count(r => r.Status == LabResultStatus.Completed)</h4>
+                                <small class="text-muted">Completed</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="text-warning mb-1">@Model.Count(r => r.Status == LabResultStatus.Pending)</h4>
+                                <small class="text-muted">Pending</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="text-info mb-1">@Model.Count(r => r.Status == LabResultStatus.InProgress)</h4>
+                                <small class="text-muted">In Progress</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function downloadResult(resultId) {
+        // This would typically generate and download a PDF report
+        window.open(`@Url.Action("DownloadLabResult", "Patient")?resultId=${resultId}`, '_blank');
+    }
+</script>

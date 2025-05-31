@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem.csproj": {}
+    "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem\\HospitalManagementSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem.csproj": {
+    "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem\\HospitalManagementSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem.csproj",
+        "projectUniqueName": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem\\HospitalManagementSystem.csproj",
         "projectName": "HospitalManagementSystem",
-        "projectPath": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem.csproj",
+        "projectPath": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem\\HospitalManagementSystem.csproj",
         "packagesPath": "C:\\Users\\Razil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\obj\\",
+        "outputPath": "C:\\Users\\Razil\\Desktop\\c#FinalProject\\HospitalManagementSystem\\HospitalManagementSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
